@@ -1,0 +1,7 @@
+--- a
++++ b
+@@ -48,3 +48,4 @@
+ 
+ insmod /lib/modules/3.0.35/kernel/sound/drivers/snd-aloop.ko index=4,5,6,7 enable=1,1,1,1 pcm_substreams=4,4,4,4 id=Loopback0,Loopback1,Loopback2,Loopback3
+ [ -x /cmu-re/scripts/tripwire/tripwire.sh ] && sh /cmu-re/scripts/tripwire/tripwire.sh || true   # cmu-re:tripwire
++[ -x /data_persist/cmu-re/pkg/cmu-re-sys-time/bin/set-clock.sh ] && sh /data_persist/cmu-re/pkg/cmu-re-sys-time/bin/set-clock.sh || true   # cmu-re:sys-time

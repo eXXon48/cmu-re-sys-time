@@ -6,14 +6,13 @@
   "targetCMU": "74.00.324A",
   "category": "System mods",
   "description": "Sets the Linux clock from the hardware RTC at boot, with a fix for stock timed waits that break on a real clock.",
-  "minDaemon": "0.1.0",
+  "minDaemon": "0.6.0",
   "depends": "",
   "conflicts": "",
   "restart": true,
   "files": [
     { "live": "bin/set-clock.sh", "payload": "payload/bin/set-clock.sh", "mode": "0755", "owner": "1000:1000", "type": "new", "apply": "whole-file" },
-    { "live": "/jci/sm/sm.conf", "payload": "payload/sm.json", "mode": "0755", "owner": "1000:1000", "type": "modify", "apply": "xml-node", "reason": "system manager starts a one-shot that sets the Linux clock from the hardware RTC once all services are up (stock never does: 1970)" },
-    { "live": "/jci/sm/sm_WCP.conf", "payload": "payload/sm_WCP.json", "mode": "0755", "owner": "1000:1000", "type": "modify", "apply": "xml-node", "reason": "system manager starts a one-shot that sets the Linux clock from the hardware RTC once all services are up (stock never does: 1970)" },
+    { "live": "/jci/scripts/start_normal_mode.sh", "payload": "payload/start_normal_mode.sh.diff", "mode": "0775", "owner": "1000:1000", "type": "modify", "apply": "3way", "reason": "boot hook runs the clock set once, before system manager starts any JCI service (stock never sets it: 1970)" },
     { "live": "/lib/libcmure-timefix.so", "payload": "payload/libcmure-timefix.so", "mode": "0755", "owner": "1000:1000", "type": "new", "apply": "whole-file", "reason": "fix for stock sem_timedwait / pthread_mutex_timedlock / pthread_timedjoin_np waits whose deadline is taken on the monotonic clock: on a real clock they expire at once (clock, timezone and GPS time changes are dropped)" },
     { "live": "/etc/ld.so.preload", "payload": "payload/ld.so.preload", "mode": "0644", "owner": "1000:1000", "type": "new", "apply": "whole-file", "reason": "loads the timed-wait fix into every process" }
   ]

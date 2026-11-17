@@ -1,1 +1,0 @@
-{"ops":[{"insert":{"xpath":"//services/service[@name='stage_1']","position":"before","node":"<service type=\"process\" name=\"cmu_re_sys_time\" path=\"/bin/sh\" args=\"/data_persist/cmu-re/pkg/cmu-re-sys-time/bin/set-clock.sh\" autorun=\"yes\" retry_count=\"0\" exit_allowed=\"yes\" started_after_exit_allowed=\"yes\" reset_board=\"no\"/>"}}]}

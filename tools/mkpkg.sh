@@ -8,7 +8,6 @@ case $ver in ''|*[!0-9A-Za-z.+~-]*) echo "bad version: $ver" >&2; exit 2;; esac
 case $2 in /*) pack=$2;; *) pack=$PWD/$2;; esac
 case $3 in /*) out=$3;; *) out=$PWD/$3;; esac
 cd "$(dirname "$0")/.."
-cmp pkg/payload/sm.json pkg/payload/sm_WCP.json
 [ -f build/libcmure-timefix.so ] || { echo "build/libcmure-timefix.so missing: run tools/build-timefix.sh" >&2; exit 1; }
 rm -rf build-pkg
 cp -r pkg build-pkg

@@ -12,12 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Manifest and ops parse, both SM configs get the same ops
+      - name: Manifest parses, the hook payload is a diff that adds one line
         run: |
-          for f in pkg/manifest.json pkg/payload/*.json; do python3 -m json.tool "$f" >/dev/null; done
-          cmp pkg/payload/sm.json pkg/payload/sm_WCP.json
-          # every inserted node is well-formed XML
-          python3 -c 'import json,sys,xml.dom.minidom as m; [m.parseString(o["insert"]["node"]) for o in json.load(open(sys.argv[1]))["ops"]]' pkg/payload/sm.json
+          python3 -m json.tool pkg/manifest.json >/dev/null
+          f=pkg/payload/start_normal_mode.sh.diff
+          head -n 2 "$f" | grep -q '^--- a$' && [ "$(grep -c '^+[^+]' "$f")" = 1 ] && [ "$(grep -c '^-[^-]' "$f")" = 0 ]
       - name: set-clock.sh tests
         run: |
           sh -n pkg/payload/bin/set-clock.sh
