@@ -5,8 +5,12 @@
 at 1970. Anything that checks wall time (TLS certificate validity, file times, logs) breaks.
 
 This package adds one short-lived service to the system manager (`/jci/sm/sm.conf` and
-`sm_WCP.conf`) that runs `hwclock -s -u` (busybox, already on the unit) once at boot. No
-binary is shipped; the package carries only the XML insert.
+`sm_WCP.conf`) that runs `bin/set-clock.sh` (in the package folder) once per boot. The script
+waits until the system manager reports that all services are up (`SM_SERVER_CMD_RUNNING` in
+`/tmp/smevents.txt`, about 60 s after power-on), then runs `hwclock -s -u` (busybox, already
+on the unit). Setting the clock earlier breaks the boot: the system manager's start timeouts
+follow the wall clock, and a jump of decades expires them all. If the system manager is not
+up within 300 s of uptime, the clock is left alone. No binary is shipped.
 
 ## Install
 
@@ -23,8 +27,11 @@ boot is back to the stock 1970 clock.
 - The RTC is only as right as the head unit's clock: Settings lets the user change the time
   of day (and that rewrites the RTC), so the clock can be off by up to a day.
 - No network or GPS time sync.
+- Until about a minute after power-on the clock still reads 1970.
 
 ## Build
+
+Tests (any POSIX sh): `sh test/run.sh`
 
 ```sh
 sh tools/mkpkg.sh <version> <path/to/rvp-pack> cmu-re-sys-time-<version>.rvp

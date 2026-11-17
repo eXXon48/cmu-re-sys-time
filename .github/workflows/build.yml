@@ -18,6 +18,10 @@ jobs:
           cmp pkg/payload/sm.json pkg/payload/sm_WCP.json
           # every inserted node is well-formed XML
           python3 -c 'import json,sys,xml.dom.minidom as m; [m.parseString(o["insert"]["node"]) for o in json.load(open(sys.argv[1]))["ops"]]' pkg/payload/sm.json
+      - name: set-clock.sh tests
+        run: |
+          sh -n pkg/payload/bin/set-clock.sh
+          sh test/run.sh
 
   release:
     needs: check

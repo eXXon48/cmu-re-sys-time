@@ -11,7 +11,8 @@
   "conflicts": "",
   "restart": true,
   "files": [
-    { "live": "/jci/sm/sm.conf", "payload": "payload/sm.json", "mode": "0755", "owner": "1000:1000", "type": "modify", "apply": "xml-node", "reason": "system manager sets the Linux clock from the hardware RTC once at boot (stock never does: 1970)" },
-    { "live": "/jci/sm/sm_WCP.conf", "payload": "payload/sm_WCP.json", "mode": "0755", "owner": "1000:1000", "type": "modify", "apply": "xml-node", "reason": "system manager sets the Linux clock from the hardware RTC once at boot (stock never does: 1970)" }
+    { "live": "bin/set-clock.sh", "payload": "payload/bin/set-clock.sh", "mode": "0755", "owner": "1000:1000", "type": "new", "apply": "whole-file" },
+    { "live": "/jci/sm/sm.conf", "payload": "payload/sm.json", "mode": "0755", "owner": "1000:1000", "type": "modify", "apply": "xml-node", "reason": "system manager starts a one-shot that sets the Linux clock from the hardware RTC once all services are up (stock never does: 1970)" },
+    { "live": "/jci/sm/sm_WCP.conf", "payload": "payload/sm_WCP.json", "mode": "0755", "owner": "1000:1000", "type": "modify", "apply": "xml-node", "reason": "system manager starts a one-shot that sets the Linux clock from the hardware RTC once all services are up (stock never does: 1970)" }
   ]
 }
