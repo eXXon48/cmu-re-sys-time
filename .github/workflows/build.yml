@@ -16,6 +16,8 @@ jobs:
         run: |
           for f in pkg/manifest.json pkg/payload/*.json; do python3 -m json.tool "$f" >/dev/null; done
           cmp pkg/payload/sm.json pkg/payload/sm_WCP.json
+          # every inserted node is well-formed XML
+          python3 -c 'import json,sys,xml.dom.minidom as m; [m.parseString(o["insert"]["node"]) for o in json.load(open(sys.argv[1]))["ops"]]' pkg/payload/sm.json
 
   release:
     needs: check
