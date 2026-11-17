@@ -9,8 +9,11 @@ This package adds one short-lived service to the system manager (`/jci/sm/sm.con
 waits until the system manager reports that all services are up (`SM_SERVER_CMD_RUNNING` in
 `/tmp/smevents.txt`, about 60 s after power-on), then runs `hwclock -s -u` (busybox, already
 on the unit). Setting the clock earlier breaks the boot: the system manager's start timeouts
-follow the wall clock, and a jump of decades expires them all. If the system manager is not
-up within 300 s of uptime, the clock is left alone. No binary is shipped.
+follow the wall clock, and a jump of decades expires them all. The jump must also land inside
+the tripwire's window so a boot it breaks is still counted: the script gives up (clock left
+alone) once the tripwire has marked the boot alive (`/data_persist/cmu-re/boot_count` line 2
+is `0`), or 30 s before the tripwire's `boot_timeout` (from `/etc/cmu-re/tripwire.cnf`,
+default 120), whichever comes first. No binary is shipped.
 
 ## Install
 
