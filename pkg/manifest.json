@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "name": "cmu-re-sys-time",
+  "version": "0.0.0",
+  "author": "CMU-Revised",
+  "targetCMU": "74.00.324A",
+  "category": "System mods",
+  "description": "Sets the Linux clock from the hardware RTC at boot.",
+  "minDaemon": "0.1.0",
+  "depends": "",
+  "conflicts": "",
+  "restart": true,
+  "files": [
+    { "live": "/jci/sm/sm.conf", "payload": "payload/sm.json", "mode": "0755", "owner": "1000:1000", "type": "modify", "apply": "xml-node", "reason": "system manager sets the Linux clock from the hardware RTC once at boot (stock never does: 1970)" },
+    { "live": "/jci/sm/sm_WCP.conf", "payload": "payload/sm_WCP.json", "mode": "0755", "owner": "1000:1000", "type": "modify", "apply": "xml-node", "reason": "system manager sets the Linux clock from the hardware RTC once at boot (stock never does: 1970)" }
+  ]
+}
