@@ -22,6 +22,10 @@ jobs:
         run: |
           sh -n pkg/payload/bin/set-clock.sh
           sh test/run.sh
+      - name: Timed-wait fix (host test, ARM build, export check)
+        run: |
+          python3 -m pip install --user ziglang==0.14.1
+          ZIG="python3 -m ziglang" sh tools/build-timefix.sh
 
   release:
     needs: check
@@ -48,6 +52,11 @@ jobs:
         run: |
           rustup toolchain install
           cargo build --release --offline --bin rvp-pack
+
+      - name: Build the timed-wait fix
+        run: |
+          python3 -m pip install --user ziglang==0.14.1
+          ZIG="python3 -m ziglang" sh tools/build-timefix.sh
 
       - name: Pack Revised Store package
         run: |
